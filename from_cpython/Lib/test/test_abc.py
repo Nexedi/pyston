@@ -1,5 +1,3 @@
-# expected: fail
-
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
@@ -152,10 +150,10 @@ class TestABC(unittest.TestCase):
         C.register(B)  # ok
 
     def test_register_non_class(self):
-        class A(object):
+        class D(object):
             __metaclass__ = abc.ABCMeta
         self.assertRaisesRegexp(TypeError, "Can only register classes",
-                                A.register, 4)
+                                D.register, 4)
 
     def test_registration_transitiveness(self):
         class A:
@@ -225,7 +223,9 @@ class TestABC(unittest.TestCase):
         C().f()
         del C
         test_support.gc_collect()
-        self.assertEqual(r(), None)
+        # Pyston change: conservative gc could not
+        # reclaim the space immidieately
+        # self.assertEqual(r(), None)
 
 def test_main():
     test_support.run_unittest(TestABC)

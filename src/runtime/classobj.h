@@ -45,7 +45,6 @@ public:
 
     BoxedTuple* bases;
     BoxedString* name;
-
     Box** weakreflist;
 
     BoxedClassobj(BoxedString* name, BoxedTuple* bases) : bases(bases), name(name) {}
